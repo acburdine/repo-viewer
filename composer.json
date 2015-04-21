@@ -3,7 +3,8 @@
     "description": "A simple application for theming Github public repositories",
     "require": {
         "robmorgan/phinx": "0.4.*",
-        "slim/slim": "~2.6"
+        "slim/slim": "~2.6",
+        "xamin/handlebars.php": "0.10.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.6",
