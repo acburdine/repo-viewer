@@ -2,7 +2,6 @@
     "name": "acburdine/repo-viewer",
     "description": "A simple application for theming Github public repositories",
     "require": {
-        "robmorgan/phinx": "0.4.*",
         "slim/slim": "~2.6",
         "xamin/handlebars.php": "0.10.*",
         "michelf/php-markdown": "~1.5"
@@ -17,5 +16,10 @@
             "name": "Austin Burdine",
             "email": "acburdine@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Acburdine\\RepoViewer\\": "src/"
+        }
+    }
 }

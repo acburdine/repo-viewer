@@ -30,8 +30,17 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-require '../app.php';
+namespace Acburdine\RepoViewer\Utils;
 
-App::init(); // handle app setup
+/**
+ * Database management class
+ */
+class Db {
 
-App::run(); // handle app running
+    protected $handle;
+
+    public function __construct() {
+        
+    }
+
+}

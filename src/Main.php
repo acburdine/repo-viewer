@@ -30,8 +30,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-require '../app.php';
+namespace Acburdine\RepoViewer;
 
-App::init(); // handle app setup
+class Main {
 
-App::run(); // handle app running
+    
+    
+}
