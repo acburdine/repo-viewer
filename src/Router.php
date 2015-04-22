@@ -30,48 +30,32 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Utils;
+namespace Acburdine\RepoViewer;
 
-/**
- * Database management class
- */
-class Db {
+class Router {
 
-    private static $dbFile = "data/repoviewer.db";
-    private static $instance;
+    public static function loadRoutes(\Slim\Slim $app) {
+        $projectsController = self::loadController('Projects', $app);
+        $adminController = self::loadController('Admin', $app);
+        $apiController = self::
 
-    protected $handle;
+        $app->group('/admin', function () use ($app) {
 
-    public function __construct() {
-        $this->handle = new \SQLite3(self::$dbFile);
+            $app->get('(/)', array($adminController, 'indexAction'));
+
+            $app->get('/signin', array($adminController, 'signinAction'));
+            $app->post('/authorize', array($adminController, 'authorizeAction'));
+
+        });
+
+        // Catch-all for project
+        $app->get('/:project(/:extra+)', array($projectsController, 'singleProject'));
+
     }
 
-    public function close() {
-        $this->handle->close();
-    }
-
-    public function get() {
-        return $this->handle;
-    }
-
-    public function query($sql, $values = null, $isPositional = true) {
-        if(is_null($values))
-            return $this->handle->query($sql);
-        $stmt = $this->handle->prepare($sql);
-        if(!$isPositional) {
-            foreach($values as $key => $value) {
-                $stmt->bindValue(":".$key, $value);
-            }
-            return $stmt->execute();
-        } else {
-            return $stmt->execute($values);
-        }
-    }
-
-    public static function getDefault() {
-        if(is_null(self::$instance))
-            self::$instance = new Db();
-        return self::$instance;
+    protected static function loadController($name, \Slim\Slim $app) {
+        $class = '\Acburdine\RepoViewer\Controller\\'.$name;
+        return new $class($app->request, $app->response, $app->view);
     }
 
 }

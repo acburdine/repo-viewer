@@ -30,10 +30,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer;
+namespace Acburdine\RepoViewer\Utils;
 
-class Main {
+class Auth {
 
-    
-    
+
+
 }

@@ -30,14 +30,29 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-class App {
+namespace Acburdine\RepoViewer\Utils;
 
-    public static function init() {
+/**
+ * Class for generating the database structure
+ */
+class Schema {
 
-        chdir(__DIR__); // Make file calls relative to api root
+    public static function check() {
+        if(!file_exists("data/repoviewer.db")) {
+            self::create();
+        }
+    }
 
-        require 'vendor/autoload.php'; // require Composer autoloader
+    protected static function create() {
+        $db = Db::getDefault();
 
+        // Create users table
+        $db->query(
+        "CREATE TABLE users (
+            id SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(30) NOT NULL,
+            password CHAR(60) NOT NULL,
+        ");
     }
 
 }

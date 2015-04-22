@@ -30,48 +30,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Utils;
+namespace Acburdine\RepoViewer;
 
-/**
- * Database management class
- */
-class Db {
+class RepoViewer {
 
-    private static $dbFile = "data/repoviewer.db";
-    private static $instance;
-
-    protected $handle;
-
-    public function __construct() {
-        $this->handle = new \SQLite3(self::$dbFile);
-    }
-
-    public function close() {
-        $this->handle->close();
-    }
-
-    public function get() {
-        return $this->handle;
-    }
-
-    public function query($sql, $values = null, $isPositional = true) {
-        if(is_null($values))
-            return $this->handle->query($sql);
-        $stmt = $this->handle->prepare($sql);
-        if(!$isPositional) {
-            foreach($values as $key => $value) {
-                $stmt->bindValue(":".$key, $value);
-            }
-            return $stmt->execute();
-        } else {
-            return $stmt->execute($values);
-        }
-    }
-
-    public static function getDefault() {
-        if(is_null(self::$instance))
-            self::$instance = new Db();
-        return self::$instance;
+    public static function launch() {
+        
     }
 
 }
