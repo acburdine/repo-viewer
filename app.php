@@ -30,8 +30,14 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-ini_set("display_errors", "1");
+class App {
 
-require "../app.php";
+    public static function init() {
+        chdir(__DIR__);
 
-App::init(); // launch the application!
+        require "./vendor/autoload.php";
+
+        \Acburdine\RepoViewer\RepoViewer::launch();
+    }
+
+}
