@@ -30,51 +30,40 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Utils;
+namespace Acburdine\RepoViewer\Model;
 
-/**
- * Database management class
- */
-class Db {
+use Acburdine\RepoViewer\Utils\Db;
 
-    private static $dbFile = "./data/repoviewer.db";
-    private static $instance;
+class Setting {
 
-    protected $handle;
+    protected $data;
 
     public function __construct() {
-        $this->handle = new \SQLite3(self::$dbFile);
-    }
-
-    public function close() {
-        $this->handle->close();
-    }
-
-    public function get() {
-        return $this->handle;
-    }
-
-    public function query($sql, $values = null) {
-        if(is_null($values))
-            return $this->handle->query($sql);
-        return $this->bindValues($this->prepare($sql), $values)->execute();
-    }
-
-    public function prepare($sql) {
-        return $this->handle->prepare($sql);
-    }
-
-    protected function bindValues(\SQLite3Stmt $stmt, array $values) {
-        foreach($values as $key => $value) {
-            $stmt->bindValue(":".$key, $value);
+        $this->data = array();
+        $result = Db::getDefault()->query("SELECT * FROM settings");
+        while($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $this->data[$row["settingName"]] = $row["settingValue"];
         }
-        return $stmt;
     }
 
-    public static function getDefault() {
-        if(is_null(self::$instance))
-            self::$instance = new Db();
-        return self::$instance;
+    public function get($key) {
+        if($this->has($key))
+            return $this->data[$key];
+        return null;
+    }
+
+    public function set($key, $value) {
+        if($this->has($key)) {
+            $this->data[$key] = $value;
+            Db::getDefault()
+                ->query("UPDATE settings SET settingValue = :value WHERE settingName = :key", 
+                        array("key" => $key, "value" => $value));
+        }
+        // TODO: Add possibility of creating new rows?
+    }
+
+    public function has($key) {
+        return array_key_exists($key, $this->data);
     }
 
 }

@@ -1,0 +1,16 @@
+{
+    "users": [
+    {
+        "username": "admin",
+        "password": "$2a$10$9cmX5i2G4JZNZTsF.IH50eukDmLVvWqXnLG5BSATjA/bq6vT6vTne"
+    }],
+    "settings": [
+    {
+        "key": "activeTheme",
+        "value": "acburdine_dark"
+    },
+    {
+        "key": "showForks",
+        "value": "false"
+    }]
+}

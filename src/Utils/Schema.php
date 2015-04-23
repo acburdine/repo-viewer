@@ -37,8 +37,10 @@ namespace Acburdine\RepoViewer\Utils;
  */
 class Schema {
 
+    protected static $dbFile = "./data/repoviewer.db";
+
     public static function check() {
-        if(!file_exists("data/repoviewer.db")) {
+        if(!file_exists(self::$dbFile)) {
             self::create();
         }
     }
@@ -49,10 +51,24 @@ class Schema {
         // Create users table
         $db->query(
         "CREATE TABLE users (
-            id SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
             username VARCHAR(30) NOT NULL,
-            password CHAR(60) NOT NULL,
-        ");
+            password CHAR(60) NOT NULL
+        )");
+        $db->query(
+        "CREATE TABLE settings (
+            settingName VARCHAR(30) NOT NULL,
+            settingValue VARCHAR(60) NOT NULL
+        )");
+
+        $defaults = json_decode(file_get_contents("./data/defaults.json"), true);
+        $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+        foreach($defaults["users"] as $user) {
+            $db->bindValues($stmt, $user)->execute();
+        }
+        $stmt = $db->prepare("INSERT INTO settings (settingName, settingValue) VALUES (:key, :value)");
+        foreach($defaults["settings"] as $setting) {
+            $db->bindValues($stmt, $setting)->execute();
+        }
     }
 
 }
