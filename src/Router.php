@@ -37,7 +37,6 @@ class Router {
     public static function loadRoutes(\Slim\Slim $app) {
         $projectsController = self::loadController('Projects', $app);
         $adminController = self::loadController('Admin', $app);
-        $apiController = self::
 
         $app->group('/admin', function () use ($app) {
 
