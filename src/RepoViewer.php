@@ -32,15 +32,12 @@
 
 namespace Acburdine\RepoViewer;
 
+use Slim\Slim;
+
 class RepoViewer {
 
     public static function launch() {
         Utils\Schema::check();
-
-        $set = new Model\Setting();
-        echo $set->get('showForks') . '<br><br>';
-        $set->set('showForks', "true");
-        echo $set->get('showForks') . '<br><br>';
     }
 
 }

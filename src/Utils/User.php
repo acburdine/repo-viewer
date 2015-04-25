@@ -32,8 +32,41 @@
 
 namespace Acburdine\RepoViewer\Utils;
 
-class Auth {
+/**
+ * Handles all login/permissions for the program
+ */
+class User {
 
+    protected static $session;
 
+    public static function isActive() {
+        self::init();
+        return (self::$session->has('isActive') && self::$session->get('isActive'));
+    }
+
+    public static function login($user, $pass) {
+        $result = Db::getDefault()->query('SELECT password FROM users WHERE username = :user LIMIT 1', array('user' => $user));
+
+        $userData = $result->fetchArray(SQLITE3_ASSOC);
+        if(!$userData)
+            return false;
+        if(password_verify($password, $userData['password'])) {
+            self::init();
+            self::$session->set('isActive', true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function logout() {
+        self::init();
+        self::$session->clear();
+    }
+
+    protected function init() {
+        if(is_null(self::$session))
+            self::$session = new Session('auth');
+    }
 
 }
