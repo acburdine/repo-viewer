@@ -30,19 +30,32 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer;
+namespace Acburdine\RepoViewer\Utils;
 
 use Handlebars\Handlebars;
 
 class HandlebarsView extends \Slim\View {
 
+    protected $viewsDir;
+
+    public function __construct($dir = './content/themes/theme-default/') {
+        $this->viewsDir = $dir;
+        parent::__construct();
+    }
+
+    public function setViewDir($dir) {
+        if(file_exists($dir)) {
+            $this->viewsDir = $dir;
+        }
+    }
+
     public function render($template) {
         $engine = new Handlebars(array(
-            'loader' => new \Handlebars\Loader\FilesystemLoader('./view/', array('extension'=>'.hbs')),
-            'partials_loader' => new \Handlebars\Loader\FilesystemLoader('./view/', array('prefix'=>'_', 'extension' => '.hbs'))
+            'loader' => new \Handlebars\Loader\FilesystemLoader($this->viewsDir, array('extension'=>'.hbs')),
+            'partials_loader' => new \Handlebars\Loader\FilesystemLoader($this->viewsDir.'/partials/', array('extension' => '.hbs'))
         ));
 
-        echo $enginer->render($template, $this->data);
+        echo $engine->render($template, $this->data);
     }
 
 }

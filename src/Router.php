@@ -34,11 +34,17 @@ namespace Acburdine\RepoViewer;
 
 class Router {
 
+    protected static function setViewsDir($dir, $app) {
+        return function () use ($dir, $app) {
+            $app->view->setViewDir($dir);
+        };
+    }
+
     public static function loadRoutes(\Slim\Slim $app) {
         $projectsController = self::loadController('Projects', $app);
         $adminController = self::loadController('Admin', $app);
 
-        $app->group('/admin', function () use ($app) {
+        $app->group('/admin', self::setViewsDir('./view', $app), function () use ($app, $adminController) {
 
             $app->get('(/)', array($adminController, 'indexAction'));
 
