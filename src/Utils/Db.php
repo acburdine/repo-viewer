@@ -64,7 +64,7 @@ class Db {
         return $this->handle->prepare($sql);
     }
 
-    protected function bindValues(\SQLite3Stmt $stmt, array $values) {
+    public function bindValues(\SQLite3Stmt $stmt, array $values) {
         foreach($values as $key => $value) {
             $stmt->bindValue(":".$key, $value);
         }
