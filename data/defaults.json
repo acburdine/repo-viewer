@@ -7,8 +7,12 @@
     "settings": [
     {
         "key": "activeTheme",
-        "value": "acburdine_dark"
+        "value": "default"
     },
+    {
+        "key": "themeDir",
+        "value": "theme-default"
+    }
     {
         "key": "showForks",
         "value": "false"
