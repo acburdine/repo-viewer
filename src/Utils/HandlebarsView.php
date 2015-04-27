@@ -32,31 +32,17 @@
 
 namespace Acburdine\RepoViewer;
 
-class Router {
+use Handlebars\Handlebars;
 
-    public static function loadRoutes(\Slim\Slim $app) {
-        $projectsController = self::loadController('Projects', $app);
-        $adminController = self::loadController('Admin', $app);
+class HandlebarsView extends \Slim\View {
 
-        $app->group('/admin', function () use ($app) {
+    public function render($template) {
+        $engine = new Handlebars(array(
+            'loader' => new \Handlebars\Loader\FilesystemLoader('./view/', array('extension'=>'.hbs')),
+            'partials_loader' => new \Handlebars\Loader\FilesystemLoader('./view/', array('prefix'=>'_', 'extension' => '.hbs'))
+        ));
 
-            $app->get('(/)', array($adminController, 'indexAction'));
-
-            $app->get('/signin(/)', array($adminController, 'signinAction'));
-            $app->post('/authorize(/)', array($adminController, 'authorizeAction'));
-
-            $app->get('/setup(/)', array($adminController, 'installAction'));
-
-        });
-
-        // Catch-all for project
-        $app->get('/:project(/:extra+)', array($projectsController, 'singleProject'));
-
-    }
-
-    protected static function loadController($name, \Slim\Slim $app) {
-        $class = '\Acburdine\RepoViewer\Controller\\'.$name;
-        return new $class($app);
+        echo $enginer->render($template, $this->data);
     }
 
 }

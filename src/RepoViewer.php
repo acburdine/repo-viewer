@@ -38,6 +38,12 @@ class RepoViewer {
 
     public static function launch() {
         Utils\Schema::check();
+        
+        // $app = new \Slim\Slim(array(
+        //     'view' => new Utils\HandlebarsView(),
+        // ));
+
+        // Router::loadRoutes($app);
     }
 
 }

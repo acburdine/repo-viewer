@@ -12,5 +12,9 @@
     {
         "key": "showForks",
         "value": "false"
+    },
+    {
+        "key": "githubUser",
+        "value": ""
     }]
 }
