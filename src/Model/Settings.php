@@ -34,11 +34,13 @@ namespace Acburdine\RepoViewer\Model;
 
 use Acburdine\RepoViewer\Utils\Db;
 
-class Setting {
+class Settings {
+
+    protected static $settings;
 
     protected $data;
 
-    public function __construct() {
+    private function __construct() {
         $this->data = array();
         $result = Db::getDefault()->query("SELECT * FROM settings");
         while($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -64,6 +66,12 @@ class Setting {
 
     public function has($key) {
         return array_key_exists($key, $this->data);
+    }
+
+    public static function getSettings() {
+        if(is_null(self::$settings))
+            self::$settings = new Settings();
+        return self::$settings;
     }
 
 }
