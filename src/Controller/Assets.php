@@ -35,6 +35,7 @@ namespace Acburdine\RepoViewer\Controller;
 class Assets {
 
     public function serveAsset($path) {
+class Assets extends AbstractController {
 
     }
 

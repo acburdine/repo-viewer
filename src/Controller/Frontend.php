@@ -32,28 +32,12 @@
 
 namespace Acburdine\RepoViewer\Controller;
 
-class Admin extends AbstractController {
+class Frontend extends AbstractController {
 
-    protected $app;
-
-    public function __construct($app) {
-        $this->app = $app;
-    }
-
-    public function indexAction() {
-        $this->app->render('test', array('title'=>'test page'));
-    }
-
-    public function signinAction() {
+    public function home() {
 
     }
 
-    public function authorizeAction() {
-
-    }
-
-    public function installAction() {
-
-    }
+    public function single() {}
 
 }

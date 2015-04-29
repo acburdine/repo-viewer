@@ -41,7 +41,7 @@ class Router {
     }
 
     public static function loadRoutes(\Slim\Slim $app) {
-        $projectsController = self::loadController('Projects', $app);
+        $frontendController = self::loadController('Frontend', $app);
         $adminController = self::loadController('Admin', $app);
         $assetsController = self::loadController('Assets', $app);
 
@@ -58,11 +58,14 @@ class Router {
 
         });
 
+        // Index route
+        $app->get('/', array($frontendController, 'home'));
+
         // Asset Rendering Controller
         $app->get('/assets/:path+', array($assetsController, 'serveAsset'));
 
         // Catch-all for project
-        $app->get('/:project(/:extra+)', array($projectsController, 'singleProject'));
+        $app->get('/:project(/:extra+)', array($frontendController, 'single'));
 
     }
 

@@ -32,8 +32,12 @@
 
 namespace Acburdine\RepoViewer\Controller;
 
-class Projects {
+abstract class AbstractController {
 
-    public function singleProject() {}
+    protected $app;
+
+    public function __construct(\Slim\Slim $app) {
+        $this->app = $app;
+    }
 
 }
