@@ -35,13 +35,43 @@ namespace Acburdine\RepoViewer\Helpers;
 use Handlebars\Helper;
 use Handlebars\Template;
 use Handlebars\Context;
+use Acburdine\RepoViewer\Model\Settings;
 
 class AssetHelper implements Helper {
 
+    protected $hasHtaccess;
+
+    public function __construct() {
+        $settings = Settings::getSettings();
+        $this->hasHtaccess = ($settings->get('htaccess') == 'true');
+    }
+
+    protected function getAssetLink($file) {
+        $info = pathinfo($file);
+        $path = ($this->hasHtaccess) ? '/assets/' : '/index.php/assets/';
+        $path .= ltrim($file, '/');
+        if($info['extension'] == 'css') {
+            return $this->linkTag($path);
+        } else if($info['extension'] == 'js') {
+            return $this->scriptTag($path);
+        } // TODO: Add support for less and scss
+    }
+
+    protected function scriptTag($src) {
+        return '<script src="'.$src.'" type="text/javascript"></script>';
+    }
+
+    protected function linkTag($href) {
+        return '<link rel="stylesheet" type="text/css" href="'.$href.'">';
+    }
+
     public function execute(Template $template, Context $context, $args, $source) {
-        $test = $template->parseArguments($args);
-        $test2 = $context->get($test[0]);
-        // die(var_dump($test2));
+        $parsed = $template->parseArguments($args);
+        if(count($parsed) < 1) {
+            throw new \InvalidArgumentException('asset helper expects one argument');
+        }
+        $file = $context->get(array_shift($parsed));
+        return new \Handlebars\SafeString($this->getAssetLink($file));
     }
     
 }
