@@ -30,7 +30,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Utils;
+namespace Acburdine\RepoViewer\Model;
 
 /**
  * Handles all login/permissions for the program
