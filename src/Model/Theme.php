@@ -30,34 +30,27 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Controller;
+namespace Acburdine\RepoViewer\Model;
 
-use Acburdine\RepoViewer\Model\Theme;
-use Assetic\Asset;
+class Theme {
 
-class Assets extends AbstractController {
+    protected static $themesDir = './content/themes/';
 
-    protected function getAsset($path) {
-        $info = pathinfo($path);
-        $file = new Asset\AssetCollection(array(new Asset\FileAsset($path)));
-        if($info['extension'] == 'js') {
-            $this->app->response->headers->set('Content-Type', 'application/javascript');
-        } else if($info['extension'] == 'css') {
-            $this->app->response->headers->set('Content-Type', 'text/css');
-        }
-        return $file->dump();
+    protected $name;
+    protected $dir;
+
+    public function __construct($name, $dir) {
+        $this->name = $name;
+        $this->dir = $dir;
     }
 
-    public function serveAsset($path) {
-        $assetPath = implode('/', $path);
-        $assetToRender = Theme::getActiveTheme()->getPath('/assets/'.$assetPath);
-        $this->getAsset($assetToRender)->dump();
+    public function getPath($pathToAdd = '') {
+        return self::$themesDir . $this->dir . $pathToAdd;
     }
 
-    public function serveAdminAsset($path) {
-        $assetPath = implode('/', $path);
-        $assetToRender = './view/assets/'.$assetPath;
-        echo $this->getAsset($assetToRender);
+    public static function getActiveTheme() {
+        $settings = Settings::getSettings();
+        return new Theme($settings->get('activeTheme'), $settings->get('themeDir'));
     }
-    
+
 }
