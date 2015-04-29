@@ -30,24 +30,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer;
+namespace Acburdine\RepoViewer\Controller;
 
-use Slim\Slim;
+class Assets {
 
-class RepoViewer {
-
-    public static function launch() {
-        Utils\Schema::check();
-
-        $app = new \Slim\Slim(array(
-            'view' => new Utils\HandlebarsView(),
-        ));
-
-        $app->view->loadHelpers();
-
-        Router::loadRoutes($app);
-
-        $app->run();
+    public function serveAsset($path) {
+        
     }
 
 }

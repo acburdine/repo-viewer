@@ -30,24 +30,19 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer;
+namespace Acburdine\RepoViewer\Helpers;
 
-use Slim\Slim;
+use Handlebars\Helper;
+use Handlebars\Template;
+use Handlebars\Context;
 
-class RepoViewer {
+class AssetHelper implements Helper {
 
-    public static function launch() {
-        Utils\Schema::check();
-
-        $app = new \Slim\Slim(array(
-            'view' => new Utils\HandlebarsView(),
-        ));
-
-        $app->view->loadHelpers();
-
-        Router::loadRoutes($app);
-
-        $app->run();
+    public function execute(Template $template, Context $context, $args, $source) {
+        $test = $template->parseArguments($args);
+        $test2 = $context->get($test[0]);
+        // die(var_dump($test2));
     }
-
+    
 }
+

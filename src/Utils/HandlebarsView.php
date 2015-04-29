@@ -37,25 +37,29 @@ use Handlebars\Handlebars;
 class HandlebarsView extends \Slim\View {
 
     protected $viewsDir;
+    protected $engine;
 
     public function __construct($dir = './content/themes/theme-default/') {
         $this->viewsDir = $dir;
+        $this->engine = new Handlebars();
         parent::__construct();
     }
 
     public function setViewDir($dir) {
         if(file_exists($dir)) {
-            $this->viewsDir = $dir;
+            $this->viewsDir = rtrim($dir, '/');
         }
     }
 
-    public function render($template) {
-        $engine = new Handlebars(array(
-            'loader' => new \Handlebars\Loader\FilesystemLoader($this->viewsDir, array('extension'=>'.hbs')),
-            'partials_loader' => new \Handlebars\Loader\FilesystemLoader($this->viewsDir.'/partials/', array('extension' => '.hbs'))
-        ));
+    public function loadHelpers() {
+        $this->engine->addHelper('asset', new \Acburdine\RepoViewer\Helpers\AssetHelper());
+    }
 
-        echo $engine->render($template, $this->data);
+    public function render($template) {
+        $this->engine->setLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir, array('extension' => '.hbs')));
+        $this->engine->setPartialsLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir.'/partials/', array('extension' => '.hbs')));
+
+        echo $this->engine->render($template, $this->data);
     }
 
 }

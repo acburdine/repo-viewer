@@ -43,6 +43,7 @@ class Router {
     public static function loadRoutes(\Slim\Slim $app) {
         $projectsController = self::loadController('Projects', $app);
         $adminController = self::loadController('Admin', $app);
+        $assetsController = self::loadController('Assets', $app);
 
         $app->group('/admin', self::setViewsDir('./view', $app), function () use ($app, $adminController) {
 
@@ -54,6 +55,9 @@ class Router {
             $app->get('/setup(/)', array($adminController, 'installAction'));
 
         });
+
+        // Asset Rendering Controller
+        $app->get('/assets/:path+', array($assetsController, 'serveAsset'));
 
         // Catch-all for project
         $app->get('/:project(/:extra+)', array($projectsController, 'singleProject'));
