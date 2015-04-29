@@ -46,9 +46,10 @@ class AssetHelper implements Helper {
         $this->hasHtaccess = ($settings->get('htaccess') == 'true');
     }
 
-    protected function getAssetLink($file) {
+    protected function getAssetLink($file, $isAdmin = false) {
         $info = pathinfo($file);
-        $path = ($this->hasHtaccess) ? '/assets/' : '/index.php/assets/';
+        $base = ($isAdmin) ? '/admin/assets/' : '/assets/';
+        $path = ($this->hasHtaccess) ? $base : '/index.php'.$base;
         $path .= ltrim($file, '/');
         if($info['extension'] == 'css') {
             return $this->linkTag($path);
@@ -71,7 +72,8 @@ class AssetHelper implements Helper {
             throw new \InvalidArgumentException('asset helper expects one argument');
         }
         $file = $context->get(array_shift($parsed));
-        return new \Handlebars\SafeString($this->getAssetLink($file));
+        $isAdmin = $context->get(array_shift($parsed));
+        return new \Handlebars\SafeString($this->getAssetLink($file, $isAdmin));
     }
     
 }

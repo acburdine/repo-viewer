@@ -35,7 +35,11 @@ namespace Acburdine\RepoViewer\Controller;
 class Assets {
 
     public function serveAsset($path) {
-        
+
     }
 
+    public function serveAdminAsset($path) {
+        
+    }
+    
 }

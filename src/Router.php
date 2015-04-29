@@ -45,7 +45,7 @@ class Router {
         $adminController = self::loadController('Admin', $app);
         $assetsController = self::loadController('Assets', $app);
 
-        $app->group('/admin', self::setViewsDir('./view', $app), function () use ($app, $adminController) {
+        $app->group('/admin', self::setViewsDir('./view', $app), function () use ($app, $adminController, $assetsController) {
 
             $app->get('(/)', array($adminController, 'indexAction'));
 
@@ -53,6 +53,8 @@ class Router {
             $app->post('/authorize(/)', array($adminController, 'authorizeAction'));
 
             $app->get('/setup(/)', array($adminController, 'installAction'));
+
+            $app->get('/assets/:path+', array($assetsController, 'serveAdminAsset'));
 
         });
 
