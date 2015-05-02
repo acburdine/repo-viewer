@@ -37,7 +37,7 @@ use Acburdine\RepoViewer\Model\User;
 class Admin extends AbstractController {
 
     public function indexAction() {
-        $this->app->render('test', array('title'=>'test page'));
+        $this->app->render('index', array('title'=>'test page'));
     }
 
     public function signinAction() {

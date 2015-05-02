@@ -6,29 +6,24 @@ function triggerAlert(into, level, title, message) {
             .html(dismissButton + '<strong>'+title+'!</strong> '+message).appendTo('#'+into);
 }
 
-$(document).ready(function () {
+$('#loginForm').submit(function (event) {
+    event.preventDefault();
 
-    $('#loginForm').submit(function (event) {
-        event.preventDefault();
+    var userValue = $('#username').val(),
+        passValue = $('#password').val();
 
-        var userValue = $('#username').val(),
-            passValue = $('#password').val();
+    if(!userValue || !passValue) {
+        triggerAlert('loginAlert', 'danger', 'Failure', 'Username or password incorrect');
+    }
 
-        if(!userValue || !passValue) {
-            triggerAlert('loginAlert', 'danger', 'Failure', 'Username or password incorrect');
+    $.post(window.base + '/admin/authorize/', {user: userValue, pass: passValue}, null, 'json').done(function (response) {
+        if(response.error) {
+            triggerAlert('loginAlert', 'danger', 'Failure', response.error);
+        } else {
+            triggerAlert('loginAlert', 'success', 'Success', 'redirecting...');
+            window.location.replace(response.to);
         }
-
-        $.post(window.base + '/admin/authorize/', {user: userValue, pass: passValue}, null, 'json').done(function (response) {
-            if(response.error) {
-                triggerAlert('loginAlert', 'danger', 'Failure', response.error);
-            } else {
-                triggerAlert('loginAlert', 'success', 'Success', 'redirecting...');
-                window.location.replace(response.to);
-            }
-        }).fail(function () {
-            triggerAlert('loginAlert', 'danger', 'Failure', 'Something went wrong. Try again?');
-        });
+    }).fail(function () {
+        triggerAlert('loginAlert', 'danger', 'Failure', 'Something went wrong. Try again?');
     });
-
-
 });
