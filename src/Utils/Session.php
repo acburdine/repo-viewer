@@ -34,15 +34,17 @@ namespace Acburdine\RepoViewer\Utils;
 
 class Session implements \ArrayAccess {
 
-    const SESSION_NAME = 'repoviewersession';
+    protected static $sessionName = 'repoviewersession';
 
     protected $data;
     protected $name;
 
     public function __construct($name) {
-        session_name(SESSION_NAME);
+        session_name(self::$sessionName);
         session_start();
         $this->name = $name;
+        if(!array_key_exists($name, $_SESSION))
+            $_SESSION[$name] = array();
         $this->data = $_SESSION[$name];
     }
 

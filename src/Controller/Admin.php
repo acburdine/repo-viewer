@@ -32,24 +32,32 @@
 
 namespace Acburdine\RepoViewer\Controller;
 
+use Acburdine\RepoViewer\Model\User;
+
 class Admin extends AbstractController {
-
-    protected $app;
-
-    public function __construct($app) {
-        $this->app = $app;
-    }
 
     public function indexAction() {
         $this->app->render('test', array('title'=>'test page'));
     }
 
     public function signinAction() {
-
+        $this->app->render('login', array('title'=>'login', 'baseUrl'=>'/index.php'));
     }
 
     public function authorizeAction() {
+        $user = $this->app->request->post('user');
+        $pass = $this->app->request->post('pass');
+        $response = array();
 
+        $isAuth = User::login($user, $pass);
+        if(!$isAuth) {
+            $response['error'] = 'Username or password incorrect';
+        } else {
+            $response['to'] = '/index.php/admin/';
+        }
+
+        $this->app->response->headers->set('Content-Type', 'application/json');
+        echo json_encode($response);
     }
 
     public function installAction() {

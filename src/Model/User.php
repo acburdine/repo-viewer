@@ -32,6 +32,9 @@
 
 namespace Acburdine\RepoViewer\Model;
 
+use Acburdine\RepoViewer\Utils\Db;
+use Acburdine\RepoViewer\Utils\Session;
+
 /**
  * Handles all login/permissions for the program
  */
@@ -50,7 +53,7 @@ class User {
         $userData = $result->fetchArray(SQLITE3_ASSOC);
         if(!$userData)
             return false;
-        if(password_verify($password, $userData['password'])) {
+        if(password_verify($pass, $userData['password'])) {
             self::init();
             self::$session->set('isActive', true);
             return true;
