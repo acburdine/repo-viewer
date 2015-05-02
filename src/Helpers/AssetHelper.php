@@ -48,7 +48,7 @@ class AssetHelper implements Helper {
 
     protected function getAssetLink($file, $isAdmin = false) {
         $info = pathinfo($file);
-        $base = ($isAdmin) ? '/admin/assets/' : '/assets/';
+        $base = ($isAdmin == 'true') ? '/admin/assets/' : '/assets/';
         $path = ($this->hasHtaccess) ? $base : '/index.php'.$base;
         $path .= ltrim($file, '/');
         if($info['extension'] == 'css') {
