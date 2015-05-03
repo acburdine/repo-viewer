@@ -16,7 +16,7 @@ $('#loginForm').submit(function (event) {
         triggerAlert('loginAlert', 'danger', 'Failure', 'Username or password incorrect');
     }
 
-    $.post(window.base + '/admin/authorize/', {user: userValue, pass: passValue}, null, 'json').done(function (response) {
+    $.post(window.base + '/authorize/', {user: userValue, pass: passValue}, null, 'json').done(function (response) {
         if(response.error) {
             triggerAlert('loginAlert', 'danger', 'Failure', response.error);
         } else {

@@ -30,38 +30,40 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace Acburdine\RepoViewer\Utils;
+namespace Acburdine\RepoViewer\Helpers;
 
-use Handlebars\Handlebars;
-use Acburdine\RepoViewer\Helpers;
+use Handlebars\Helper;
+use Handlebars\Template;
+use Handlebars\Context;
+use Acburdine\RepoViewer\Model\Settings;
 
-class HandlebarsView extends \Slim\View {
+class UrlHelper implements Helper {
 
-    protected $viewsDir;
-    protected $engine;
+    protected $hasHtaccess;
+    protected static $urls = array(
+        'home' => '/',
+        'admin' => '/admin',
+        'logout' => '/admin/logout/'
+    );
 
-    public function __construct($dir = './content/themes/theme-default/') {
-        $this->viewsDir = $dir;
-        $this->engine = new Handlebars();
-        parent::__construct();
+    public function __construct() {
+        $settings = Settings::getSettings();
+        $this->hasHtaccess = ($settings->get('htaccess') == 'true');
     }
 
-    public function setViewDir($dir) {
-        if(file_exists($dir)) {
-            $this->viewsDir = rtrim($dir, '/');
+    protected function getUrl($for) {
+        $url = ($this->hasHtaccess) ? '/index.php' : '';
+        $url .= self::$urls[$for];
+        return $url;
+    }
+
+    public function execute(Template $template, Context $context, $args, $source) {
+        $parsed = $template->parseArguments($args);
+        if(count($parsed) < 1) {
+            throw new \InvalidArgumentException('url helper expects one argument');
         }
+        $urlFor = $context->get(array_shift($parsed));
+        return $this->getUrl($urlFor);
     }
-
-    public function loadHelpers() {
-        $this->engine->addHelper('asset', new Helpers\AssetHelper());
-        $this->engine->addHelper('urlFor', new Helpers\UrlHelper());
-    }
-
-    public function render($template) {
-        $this->engine->setLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir, array('extension' => '.hbs')));
-        $this->engine->setPartialsLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir.'/partials/', array('extension' => '.hbs')));
-
-        echo $this->engine->render($template, $this->data);
-    }
-
+    
 }
