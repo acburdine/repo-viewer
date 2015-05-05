@@ -51,6 +51,7 @@ class Router {
 
             $app->get('/signin(/)', array($adminController, 'signinAction'));
             $app->post('/authorize(/)', array($adminController, 'authorizeAction'));
+            $app->get('/signout(/)', array($adminController, 'signoutAction'));
 
             $app->get('/setup(/)', array($adminController, 'installAction'));
 

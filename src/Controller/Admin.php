@@ -37,11 +37,19 @@ use Acburdine\RepoViewer\Model\User;
 class Admin extends AbstractController {
 
     public function indexAction() {
+        if(!User::isActive()) {
+            $this->app->redirect('/index.php/admin/signin');
+        }
         $this->app->render('index', array('title'=>'test page', 'user' => array('name'=>'Austin Burdine')));
     }
 
     public function signinAction() {
         $this->app->render('login', array('title'=>'login'));
+    }
+
+    public function signoutAction() {
+        User::logout();
+        $this->app->redirect('/index.php/admin/signin');
     }
 
     public function authorizeAction() {

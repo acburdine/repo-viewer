@@ -43,7 +43,7 @@ class UrlHelper implements Helper {
     protected static $urls = array(
         'home' => '/',
         'admin' => '/admin',
-        'logout' => '/admin/logout/'
+        'signout' => '/admin/signout/'
     );
 
     public function __construct() {

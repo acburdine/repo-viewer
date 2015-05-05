@@ -55,7 +55,7 @@ class Session implements \ArrayAccess {
     }
 
     public function has($key) {
-        return array_key_exists($this->data, $key);
+        return array_key_exists($key, $this->data);
     }
 
     public function set($key, $value) {
