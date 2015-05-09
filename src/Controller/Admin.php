@@ -20,7 +20,7 @@ class Admin extends AbstractController {
         if(!User::isActive()) {
             $this->app->redirect('/index.php/admin/signin');
         }
-        $this->app->render('index', array('title'=>'test page', 'user' => array('name'=>'Austin Burdine')));
+        $this->app->render('index', array('title'=>'Github Repo Viewer | Admin', 'user' => array('name'=>'Austin Burdine')));
     }
 
     public function signinAction() {

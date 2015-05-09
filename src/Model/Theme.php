@@ -33,4 +33,8 @@ class Theme {
         return new Theme($settings->get('activeTheme'), $settings->get('themeDir'));
     }
 
+    public static function getAllThemes() {
+        
+    }
+
 }
