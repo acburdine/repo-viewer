@@ -37,7 +37,7 @@ class HandlebarsView extends \Slim\View {
         $this->engine->addHelper('urlFor', new Helpers\UrlHelper());
     }
 
-    public function render($template) {
+    public function render($template, $data=null) {
         $this->engine->setLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir, array('extension' => '.hbs')));
         $this->engine->setPartialsLoader(new \Handlebars\Loader\FilesystemLoader($this->viewsDir.'/partials/', array('extension' => '.hbs')));
 

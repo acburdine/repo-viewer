@@ -42,12 +42,12 @@ class User {
         }
     }
 
-    public function logout() {
+    public static function logout() {
         self::init();
         self::$session->clear();
     }
 
-    protected function init() {
+    protected static function init() {
         if(is_null(self::$session))
             self::$session = new Session('auth');
     }
