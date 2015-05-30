@@ -15,27 +15,9 @@ namespace Acburdine\RepoViewer\Helpers;
 use Handlebars\Helper;
 use Handlebars\Template;
 use Handlebars\Context;
-use Acburdine\RepoViewer\Model\Settings;
+use Acburdine\RepoViewer\Utils\Url;
 
 class UrlHelper implements Helper {
-
-    protected $hasHtaccess;
-    protected static $urls = array(
-        'home' => '/',
-        'admin' => '/admin',
-        'signout' => '/admin/signout/'
-    );
-
-    public function __construct() {
-        $settings = Settings::getSettings();
-        $this->hasHtaccess = ($settings->get('htaccess') == 'true');
-    }
-
-    protected function getUrl($for) {
-        $url = ($this->hasHtaccess) ? '/index.php' : '';
-        $url .= self::$urls[$for];
-        return $url;
-    }
 
     public function execute(Template $template, Context $context, $args, $source) {
         $parsed = $template->parseArguments($args);
@@ -43,7 +25,7 @@ class UrlHelper implements Helper {
             throw new \InvalidArgumentException('url helper expects one argument');
         }
         $urlFor = $context->get(array_shift($parsed));
-        return $this->getUrl($urlFor);
+        return Url::getUrl($urlFor);
     }
     
 }

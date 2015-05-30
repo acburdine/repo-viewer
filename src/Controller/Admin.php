@@ -13,23 +13,24 @@
 namespace Acburdine\RepoViewer\Controller;
 
 use Acburdine\RepoViewer\Model\User;
+use Acburdine\RepoViewer\Utils\Url;
 
 class Admin extends AbstractController {
 
     public function indexAction() {
         if(!User::isActive()) {
-            $this->app->redirect('/index.php/admin/signin');
+            $this->app->redirect(Url::getUrl('signin'));
         }
         $this->app->render('index', array('title'=>'Github Repo Viewer | Admin', 'user' => array('name'=>'Austin Burdine')));
     }
 
     public function signinAction() {
-        $this->app->render('login', array('title'=>'login'));
+        $this->app->render('login', array('title'=>'Github Repo Viewer | Login'));
     }
 
     public function signoutAction() {
         User::logout();
-        $this->app->redirect('/index.php/admin/signin');
+        $this->app->redirect(Url::getUrl('signin'));
     }
 
     public function authorizeAction() {
@@ -41,7 +42,7 @@ class Admin extends AbstractController {
         if(!$isAuth) {
             $response['error'] = 'Username or password incorrect';
         } else {
-            $response['to'] = '/index.php/admin/';
+            $response['to'] = Url::getUrl('admin');
         }
 
         $this->app->response->headers->set('Content-Type', 'application/json');
