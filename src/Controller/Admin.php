@@ -50,7 +50,9 @@ class Admin extends AbstractController {
 
     public function changePassword() {
         $pass = $this->app->request->post('pass');
-        echo json_encode(array());
+        $change = User::changePassword($pass);
+        $response = ($change) ? array() : array('error'=>'You are not logged in');
+        echo json_encode($response);
     }
 
     public function installAction() {

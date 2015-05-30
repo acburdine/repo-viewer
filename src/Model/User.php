@@ -36,6 +36,7 @@ class User {
         if(password_verify($pass, $userData['password'])) {
             self::init();
             self::$session->set('isActive', true);
+            self::$session->set('username', $user);
             return true;
         } else {
             return false;
@@ -50,6 +51,17 @@ class User {
     protected static function init() {
         if(is_null(self::$session))
             self::$session = new Session('auth');
+    }
+
+    public static function changePassword($newPassword) {
+        self::init();
+        if(!self::isActive()) {
+            return false;
+        }
+        $pass = password_hash($newPassword, PASSWORD_BCRYPT);
+        $user = self::$session->get('username');
+        Db::getDefault()->query('UPDATE users SET password = :pass WHERE username = :user', array('pass' => $pass, 'user' => $user));
+        return true;
     }
 
 }
