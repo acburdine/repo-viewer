@@ -48,6 +48,11 @@ class Admin extends AbstractController {
         echo json_encode($response);
     }
 
+    public function changePassword() {
+        $pass = $this->app->request->post('pass');
+        echo json_encode(array());
+    }
+
     public function installAction() {
 
     }

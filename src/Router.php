@@ -33,6 +33,8 @@ class Router {
             $app->post('/authorize(/)', array($adminController, 'authorizeAction'));
             $app->get('/signout(/)', array($adminController, 'signoutAction'));
 
+            $app->post('/changePassword(/)', array($adminController, 'changePassword'));
+
             $app->get('/setup(/)', array($adminController, 'installAction'));
 
             $app->get('/assets/:path+', array($assetsController, 'serveAdminAsset'));
