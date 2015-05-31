@@ -10,10 +10,6 @@
         "value": "default"
     },
     {
-        "key": "themeDir",
-        "value": "theme-default"
-    },
-    {
         "key": "showForks",
         "value": "false"
     },

@@ -13,6 +13,8 @@
 namespace Acburdine\RepoViewer\Controller;
 
 use Acburdine\RepoViewer\Model\User;
+use Acburdine\RepoViewer\Model\Theme;
+use Acburdine\RepoViewer\Model\Settings;
 use Acburdine\RepoViewer\Utils\Url;
 
 class Admin extends AbstractController {
@@ -21,7 +23,8 @@ class Admin extends AbstractController {
         if(!User::isActive()) {
             $this->app->redirect(Url::getUrl('signin'));
         }
-        $this->app->render('index', array('title'=>'Github Repo Viewer | Admin', 'user' => array('name'=>'Austin Burdine')));
+        $themes = Theme::getAllThemes();
+        $this->app->render('index', array('title'=>'Github Repo Viewer | Admin', 'user' => array('name'=>'Austin Burdine'), 'themes' => $themes));
     }
 
     public function signinAction() {
